@@ -11,7 +11,7 @@ class LivewireSupportTicketsServiceProvider extends ServiceProvider
     /**
      * Bootstrap the application services.
      */
-    public function boot()
+    public function boot(): void
     {
         /*
          * Optional methods to load your package assets
@@ -54,14 +54,12 @@ class LivewireSupportTicketsServiceProvider extends ServiceProvider
     /**
      * Register the application services.
      */
-    public function register()
+    public function register(): void
     {
         // Automatically apply the package configuration
         $this->mergeConfigFrom(__DIR__ . '/../config/config.php', 'livewire-support-tickets');
 
         // Register the main class to use with the facade
-        $this->app->singleton('livewire-support-tickets', function () {
-            return new LivewireSupportTickets();
-        });
+        $this->app->singleton('livewire-support-tickets', fn(): \Centrex\LivewireSupportTickets\LivewireSupportTickets => new LivewireSupportTickets());
     }
 }

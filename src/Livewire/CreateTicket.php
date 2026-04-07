@@ -46,12 +46,12 @@ class CreateTicket extends Component
         'attachments.*.max'    => 'Each file must not exceed 5MB.',
     ];
 
-    public function updated($propertyName)
+    public function updated($propertyName): void
     {
         $this->validateOnly($propertyName);
     }
 
-    public function removeAttachment($index)
+    public function removeAttachment($index): void
     {
         array_splice($this->attachments, $index, 1);
     }

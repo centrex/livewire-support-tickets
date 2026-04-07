@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace Centrex\LivewireSupportTickets\Livewire;
 
-use Centrex\LivewireSupportTickets\Models\{Ticket};
+use Centrex\LivewireSupportTickets\Models\Ticket;
 use Livewire\{Component, WithFileUploads};
 
 class ShowTicket extends Component
@@ -21,11 +21,11 @@ class ShowTicket extends Component
 
     public $newStatus = '';
 
-    public $assignedTo = null;
+    public $assignedTo;
 
     protected $listeners = ['ticketUpdated' => '$refresh'];
 
-    public function mount(Ticket $ticket)
+    public function mount(Ticket $ticket): void
     {
         $this->authorize('view', $ticket);
         $this->ticket = $ticket;
@@ -41,7 +41,7 @@ class ShowTicket extends Component
         ];
     }
 
-    public function addReply()
+    public function addReply(): void
     {
         $this->validate();
 
@@ -78,7 +78,7 @@ class ShowTicket extends Component
         session()->flash('reply-success', 'Reply added successfully!');
     }
 
-    public function updateStatus()
+    public function updateStatus(): void
     {
         if (!auth()->user()->is_admin) {
             return;
@@ -92,7 +92,7 @@ class ShowTicket extends Component
         $this->dispatch('ticketUpdated');
     }
 
-    public function updateAssignment()
+    public function updateAssignment(): void
     {
         if (!auth()->user()->is_admin) {
             return;
@@ -106,7 +106,7 @@ class ShowTicket extends Component
         $this->dispatch('ticketUpdated');
     }
 
-    public function removeAttachment($index)
+    public function removeAttachment($index): void
     {
         array_splice($this->attachments, $index, 1);
     }

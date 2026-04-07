@@ -30,11 +30,11 @@ class Ticket extends Model
     {
         parent::boot();
 
-        static::creating(function ($ticket) {
+        static::creating(function ($ticket): void {
             $ticket->ticket_number = 'TKT-' . strtoupper(uniqid());
         });
 
-        static::updating(function ($ticket) {
+        static::updating(function ($ticket): void {
             if ($ticket->isDirty('status') && in_array($ticket->status, ['resolved', 'closed'])) {
                 $ticket->closed_at = now();
             }

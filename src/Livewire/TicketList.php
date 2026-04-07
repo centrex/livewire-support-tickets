@@ -31,22 +31,22 @@ class TicketList extends Component
         'priorityFilter' => ['except' => ''],
     ];
 
-    public function updatingSearch()
+    public function updatingSearch(): void
     {
         $this->resetPage();
     }
 
-    public function updatingStatusFilter()
+    public function updatingStatusFilter(): void
     {
         $this->resetPage();
     }
 
-    public function updatingPriorityFilter()
+    public function updatingPriorityFilter(): void
     {
         $this->resetPage();
     }
 
-    public function sortBy($field)
+    public function sortBy($field): void
     {
         if ($this->sortField === $field) {
             $this->sortDirection = $this->sortDirection === 'asc' ? 'desc' : 'asc';
@@ -56,7 +56,7 @@ class TicketList extends Component
         }
     }
 
-    public function deleteTicket($ticketId)
+    public function deleteTicket($ticketId): void
     {
         $ticket = Ticket::find($ticketId);
 
@@ -67,7 +67,7 @@ class TicketList extends Component
         }
     }
 
-    public function clearFilters()
+    public function clearFilters(): void
     {
         $this->reset(['search', 'statusFilter', 'priorityFilter', 'categoryFilter']);
         $this->resetPage();
@@ -77,20 +77,20 @@ class TicketList extends Component
     {
         $query = Ticket::query()
             ->with(['user', 'assignedUser', 'replies'])
-            ->when($this->search, function ($q) {
-                $q->where(function ($query) {
+            ->when($this->search, function ($q): void {
+                $q->where(function ($query): void {
                     $query->where('ticket_number', 'like', '%' . $this->search . '%')
                         ->orWhere('subject', 'like', '%' . $this->search . '%')
                         ->orWhere('description', 'like', '%' . $this->search . '%');
                 });
             })
-            ->when($this->statusFilter, function ($q) {
+            ->when($this->statusFilter, function ($q): void {
                 $q->where('status', $this->statusFilter);
             })
-            ->when($this->priorityFilter, function ($q) {
+            ->when($this->priorityFilter, function ($q): void {
                 $q->where('priority', $this->priorityFilter);
             })
-            ->when($this->categoryFilter, function ($q) {
+            ->when($this->categoryFilter, function ($q): void {
                 $q->where('category', $this->categoryFilter);
             });
 
