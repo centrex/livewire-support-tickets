@@ -4,9 +4,9 @@ declare(strict_types = 1);
 
 namespace Centrex\LivewireSupportTickets\Tests;
 
+use Centrex\LivewireSupportTickets\LivewireSupportTicketsServiceProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Orchestra\Testbench\TestCase as Orchestra;
-use Centrex\LivewireSupportTickets\LivewireSupportTicketsServiceProvider;
 
 class TestCase extends Orchestra
 {

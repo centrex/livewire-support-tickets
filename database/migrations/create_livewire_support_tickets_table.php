@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types = 1);
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+return new class() extends Migration
 {
     public function up()
     {
@@ -20,7 +22,7 @@ return new class extends Migration
             $table->string('category')->nullable();
             $table->timestamp('closed_at')->nullable();
             $table->timestamps();
-            
+
             $table->index(['status', 'priority']);
             $table->index('user_id');
         });
@@ -32,7 +34,7 @@ return new class extends Migration
             $table->text('message');
             $table->boolean('is_internal')->default(false);
             $table->timestamps();
-            
+
             $table->index('ticket_id');
         });
 

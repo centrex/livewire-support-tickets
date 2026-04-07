@@ -1,21 +1,26 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Centrex\LivewireSupportTickets\Livewire;
 
-use Centrex\LivewireSupportTickets\Models\Ticket;
-use Centrex\LivewireSupportTickets\Models\TicketReply;
-use Livewire\Component;
-use Livewire\WithFileUploads;
+use Centrex\LivewireSupportTickets\Models\{Ticket};
+use Livewire\{Component, WithFileUploads};
 
 class ShowTicket extends Component
 {
     use WithFileUploads;
 
     public Ticket $ticket;
+
     public $replyMessage = '';
+
     public $attachments = [];
+
     public $isInternal = false;
+
     public $newStatus = '';
+
     public $assignedTo = null;
 
     protected $listeners = ['ticketUpdated' => '$refresh'];
@@ -31,8 +36,8 @@ class ShowTicket extends Component
     protected function rules()
     {
         return [
-            'replyMessage' => 'required|min:3',
-            'attachments.*' => 'nullable|file|max:5120|mimes:jpg,jpeg,png,pdf,doc,docx,txt'
+            'replyMessage'  => 'required|min:3',
+            'attachments.*' => 'nullable|file|max:5120|mimes:jpg,jpeg,png,pdf,doc,docx,txt',
         ];
     }
 
@@ -41,9 +46,9 @@ class ShowTicket extends Component
         $this->validate();
 
         $reply = $this->ticket->replies()->create([
-            'user_id' => auth()->id(),
-            'message' => $this->replyMessage,
-            'is_internal' => $this->isInternal && auth()->user()->is_admin
+            'user_id'     => auth()->id(),
+            'message'     => $this->replyMessage,
+            'is_internal' => $this->isInternal && auth()->user()->is_admin,
         ]);
 
         // Handle attachments
@@ -51,13 +56,13 @@ class ShowTicket extends Component
             foreach ($this->attachments as $attachment) {
                 $filename = $attachment->getClientOriginalName();
                 $path = $attachment->store('ticket-attachments', 'public');
-                
+
                 $reply->attachments()->create([
                     'ticket_id' => $this->ticket->id,
-                    'filename' => $filename,
-                    'path' => $path,
+                    'filename'  => $filename,
+                    'path'      => $path,
                     'mime_type' => $attachment->getMimeType(),
-                    'size' => $attachment->getSize()
+                    'size'      => $attachment->getSize(),
                 ]);
             }
         }
@@ -69,7 +74,7 @@ class ShowTicket extends Component
 
         $this->reset(['replyMessage', 'attachments', 'isInternal']);
         $this->ticket->refresh();
-        
+
         session()->flash('reply-success', 'Reply added successfully!');
     }
 
@@ -80,7 +85,7 @@ class ShowTicket extends Component
         }
 
         $this->ticket->update([
-            'status' => $this->newStatus
+            'status' => $this->newStatus,
         ]);
 
         session()->flash('message', 'Ticket status updated!');
@@ -94,7 +99,7 @@ class ShowTicket extends Component
         }
 
         $this->ticket->update([
-            'assigned_to' => $this->assignedTo
+            'assigned_to' => $this->assignedTo,
         ]);
 
         session()->flash('message', 'Ticket assignment updated!');
@@ -110,7 +115,7 @@ class ShowTicket extends Component
     {
         return view('livewire.show-ticket', [
             'replies' => $this->ticket->replies()->with(['user', 'attachments'])->get(),
-            'users' => auth()->user()->is_admin ? \App\Models\User::where('is_admin', true)->get() : []
+            'users'   => auth()->user()->is_admin ? \App\Models\User::where('is_admin', true)->get() : [],
         ]);
     }
 }

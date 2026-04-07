@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Centrex\LivewireSupportTickets\Policies;
 
-use Centrex\LivewireSupportTickets\Models\Ticket;
 use App\Models\User;
+use Centrex\LivewireSupportTickets\Models\Ticket;
 
 class TicketPolicy
 {

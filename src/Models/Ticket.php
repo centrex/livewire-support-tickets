@@ -1,13 +1,12 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Centrex\LivewireSupportTickets\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Centrex\LivewireSupportTickets\Models\TicketReply;
-use Centrex\LivewireSupportTickets\Models\TicketAttachment;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\{BelongsTo, HasMany};
 
 class Ticket extends Model
 {
@@ -20,7 +19,7 @@ class Ticket extends Model
         'status',
         'priority',
         'category',
-        'closed_at'
+        'closed_at',
     ];
 
     protected $casts = [
@@ -64,24 +63,24 @@ class Ticket extends Model
 
     public function getStatusColorAttribute(): string
     {
-        return match($this->status) {
-            'open' => 'blue',
-            'in_progress' => 'yellow',
+        return match ($this->status) {
+            'open'             => 'blue',
+            'in_progress'      => 'yellow',
             'waiting_response' => 'orange',
-            'resolved' => 'green',
-            'closed' => 'gray',
-            default => 'gray'
+            'resolved'         => 'green',
+            'closed'           => 'gray',
+            default            => 'gray',
         };
     }
 
     public function getPriorityColorAttribute(): string
     {
-        return match($this->priority) {
-            'low' => 'gray',
+        return match ($this->priority) {
+            'low'    => 'gray',
             'medium' => 'blue',
-            'high' => 'orange',
+            'high'   => 'orange',
             'urgent' => 'red',
-            default => 'gray'
+            default  => 'gray',
         };
     }
 
@@ -100,4 +99,3 @@ class Ticket extends Model
         return $query->where('priority', $priority);
     }
 }
-

@@ -1,26 +1,33 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Centrex\LivewireSupportTickets\Livewire;
 
 use Centrex\LivewireSupportTickets\Models\Ticket;
-use Livewire\Component;
-use Livewire\WithPagination;
+use Livewire\{Component, WithPagination};
 
 class TicketList extends Component
 {
     use WithPagination;
 
     public $search = '';
+
     public $statusFilter = '';
+
     public $priorityFilter = '';
+
     public $categoryFilter = '';
+
     public $sortField = 'created_at';
+
     public $sortDirection = 'desc';
+
     public $perPage = 10;
 
     protected $queryString = [
-        'search' => ['except' => ''],
-        'statusFilter' => ['except' => ''],
+        'search'         => ['except' => ''],
+        'statusFilter'   => ['except' => ''],
         'priorityFilter' => ['except' => ''],
     ];
 
@@ -52,7 +59,7 @@ class TicketList extends Component
     public function deleteTicket($ticketId)
     {
         $ticket = Ticket::find($ticketId);
-        
+
         if ($ticket && (auth()->id() === $ticket->user_id || auth()->user()->is_admin)) {
             $ticket->delete();
             session()->flash('message', 'Ticket deleted successfully!');
@@ -73,8 +80,8 @@ class TicketList extends Component
             ->when($this->search, function ($q) {
                 $q->where(function ($query) {
                     $query->where('ticket_number', 'like', '%' . $this->search . '%')
-                          ->orWhere('subject', 'like', '%' . $this->search . '%')
-                          ->orWhere('description', 'like', '%' . $this->search . '%');
+                        ->orWhere('subject', 'like', '%' . $this->search . '%')
+                        ->orWhere('description', 'like', '%' . $this->search . '%');
                 });
             })
             ->when($this->statusFilter, function ($q) {
@@ -93,7 +100,7 @@ class TicketList extends Component
         }
 
         return $query->orderBy($this->sortField, $this->sortDirection)
-                    ->paginate($this->perPage);
+            ->paginate($this->perPage);
     }
 
     public function render()

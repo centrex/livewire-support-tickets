@@ -1,12 +1,12 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Centrex\LivewireSupportTickets\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Centrex\LivewireSupportTickets\Models\TicketAttachment;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\{BelongsTo, HasMany};
 
 class TicketReply extends Model
 {
@@ -14,7 +14,7 @@ class TicketReply extends Model
         'ticket_id',
         'user_id',
         'message',
-        'is_internal'
+        'is_internal',
     ];
 
     protected $casts = [

@@ -1,11 +1,11 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Centrex\LivewireSupportTickets\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Centrex\LivewireSupportTickets\Models\Ticket;
-use Centrex\LivewireSupportTickets\Models\TicketReply;
 
 class TicketAttachment extends Model
 {
@@ -15,7 +15,7 @@ class TicketAttachment extends Model
         'filename',
         'path',
         'mime_type',
-        'size'
+        'size',
     ];
 
     public function ticket(): BelongsTo
@@ -32,11 +32,11 @@ class TicketAttachment extends Model
     {
         $bytes = $this->size;
         $units = ['B', 'KB', 'MB', 'GB'];
-        
+
         for ($i = 0; $bytes > 1024; $i++) {
             $bytes /= 1024;
         }
-        
+
         return round($bytes, 2) . ' ' . $units[$i];
     }
 }
